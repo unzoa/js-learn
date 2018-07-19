@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>class</title>
+</head>
+<body>
+<script>
+let _log = console.log.bind(console)
+// 基础
+  class obj0 {
+    constructor (name) {
+      this.name = name
+    }
+    // methods
+    sayName () {
+      return this.name
+    }
+  }
+  let obj0Exp = new obj0('haha')
+
+// 静态函数
+  class Point {
+      constructor(x, y) {
+          this.x = x;
+          this.y = y;
+      }
+      // 静态方法，不能通过实例访问
+      // 通常作为工具函数
+      static distance(a, b) {
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+
+          return Math.hypot(dx, dy);
+      }
+  }
+  const p1 = new Point(5, 5);
+  // console.log(p1.distance(5, 5)) // p1.distance is not a function
+  const p2 = new Point(10, 10);
+  console.log(Point.distance(p1, p2));
+
+// 用原型和静态方法包装
+  class Animal { 
+    speak() {
+      return this;
+    }
+    static eat() {
+      return this;
+    }
+  }
+  let obj = new Animal();
+  obj.speak(); // Animal {}
+  let speak = obj.speak;
+    // 该对象没有“this”值（或“this”作为布尔，字符串，数字，未定义或null) ，那么“this”值在被调用的函数内部将为 undefined
+    // ？？？
+  speak(); // undefined
+
+
+  function Animal2() { }
+  Animal2.prototype.speak = function() {
+    return this;
+  }
+  Animal2.eat = function() {
+    return this;
+  }
+
+  let obj2 = new Animal2();
+  let speak2 = obj2.speak;
+  speak2(); // global object
+
+  let eat2 = Animal2.eat;
+  eat2(); // global object
+
+// extends 创建子类
+  class Animal3 {
+    constructor (name, sex) {
+      this.name = name
+      this.sex = sex
+    }
+
+    // methods
+    intro () {
+      _log(`hello, my name is ` + this.name + ', and m ' + this.sex)
+    }
+  }
+  class Dogy extends Animal3 {
+    doSth () {
+      _log('i can say my name ' + this.name)
+    }
+  }
+  let dogy = new Dogy('jussrit', 'man')
+
+// super() 
+  class Pigy extends Animal3 {
+    
+    // super.intro()
+    constructor (name, sex, height) {
+      super(name, sex)
+      this.height = height
+    }
+  }
+  let pigy = new Pigy('jussrit', 'man', 20)
+</script>
+</body>
+</html>

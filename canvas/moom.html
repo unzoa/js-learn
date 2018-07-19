@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>canvas-moon</title>
+  <link rel="stylesheet" type="text/css" href="../_y.css">
+  <style type="text/css">
+    body {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #111;
+    }
+  </style>
+</head>
+<body>
+<canvas id="myCanvas" width="600" height="300"></canvas>
+<script type="text/javascript">
+
+window.addEventListener('load', eventWindowLoaded, false);
+
+function eventWindowLoaded () {
+  canvasApp(); //包含整个Canvas应用程序
+}
+
+function canvasSupport (e) { 
+      return !!e.getContext;
+}
+
+function canvasApp () {
+  var myCanvas = document.getElementById('myCanvas');
+  
+  myCanvas.width = window.innerWidth;
+  myCanvas.height = window.innerHeight;
+
+  if (!canvasSupport(myCanvas)) {
+      return; 
+    }
+  
+  var ctx = myCanvas.getContext('2d');
+  
+  function getRads(degrees) {
+    return (Math.PI * degrees) / 180;
+  }
+  
+  //随机大小
+  function randomNm(min, max){
+    return min + Math.floor(Math.random() * (max-min));
+  }
+  //随机颜色
+  function randomColor(){
+    var hsl = '',
+        h,s,l = '';
+    h = randomNm(0, 360);
+    s = randomNm(0, 100) + '%';
+    l = randomNm(0, 100) + '%';
+    hsl='(' + h + ',' + s + ',' + l + ')';
+    return hsl
+  }
+  
+  
+  
+  function drawMoon(cxt, d, x, y, R, rot){
+    cxt.save();
+    cxt.translate(x, y);
+    cxt.scale(R, R);
+    cxt.rotate(Math.PI / 180 * rot);
+    pathMoon(cxt, d);
+    cxt.fillStyle = 'hsl' + randomColor();
+    cxt.fill();
+    cxt.restore();
+ }
+ //画路径
+ function pathMoon(cxt, d){
+    //D表示控制点的横坐标；
+    cxt.beginPath();
+    cxt.arc(0, 0, 1, Math.PI * 0.5, Math.PI * 1.5, true);
+    cxt.moveTo(0, -1);
+    cxt.arcTo(d, 0, 0, 1, dis(0, -1, d, 0) * 1 / d);
+    cxt.closePath();
+ }
+ function dis(x1, y1, x2, y2){
+    return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+ }
+  
+  
+  
+  function drawScreen () {
+    
+    drawMoon(ctx,2,myCanvas.width / 2,myCanvas.height / 2,100,15);
+    
+  }
+  
+  drawScreen();
+  
+}
+</script>
+</body>
+</html>

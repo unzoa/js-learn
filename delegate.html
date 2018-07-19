@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>delegate</title>
+</head>
+<body>
+<ul id="ul1">
+    <li>111</li>
+    <li>222</li>
+    <li>333</li>
+    <li><a href="#">444</a></li>
+</ul>
+<input type="button" name="" id="btn" value="添加" />
+<script type="text/javascript">
+	
+window.onload = function(){
+　　var oUl = document.getElementById("ul1");
+　　oUl.onclick = function(ev){
+　　　　 var ev = ev || window.event;//IE浏览器用event.srcElement
+　　　　 var target = ev.target || ev.srcElement;
+　　　　 if(target.nodeName.toLowerCase() == 'li'){
+　　　　   	console.log(target.innerHTML,target.nodeName);
+　　　　 }
+		if (target.nodeName.toLowerCase() == 'a') {
+			console.log(target.nodeName);
+		}
+　　}
+
+	//添加新节点
+	var num = '4';
+    document.getElementById("btn").onclick = function(){
+        num++;
+        var oLi = document.createElement('li');
+        oLi.innerHTML = 111*num;
+        oUl.appendChild(oLi);
+    };
+}
+
+</script>
+</body>
+</html>

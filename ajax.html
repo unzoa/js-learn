@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	
+	// step 1: 创建XMLHttpRequest()对象
+	// step 2: .open('Get',url)
+	// step 3: .requestType = ''
+	// step 4: .send()
+	// step 5: .onload = ()=>{}
+
+	var haha = document.createElement('h1');
+	    haha.textContent = 'loading...';
+
+	var ajaxAct = function(url,data,dataType,method){
+		var request = new XMLHttpRequest();
+
+		// XMLHttpRequest
+		if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
+		    request = new XMLHttpRequest();
+		} else if (window.ActiveXObject) { // IE 6 and older
+		    request = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		
+		request.open(method,url);
+		request.requestType = dataType;
+		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		request.send(data);
+		
+		request.onreadystatechange = function(){
+			if (request.readyState === XMLHttpRequest.DONE) {
+		      if (request.status === 200) {
+
+		        // console.log(request.responseText);
+		        setTimeout(function(){
+		        	document.body.removeChild(haha);
+		        },1500);
+		        
+		      } else {
+		        alert('There was a problem with the request.');
+		      }
+		    }else{
+		    	document.body.appendChild(haha);
+		    }
+		}
+
+		request.onload = function(){
+			var res = request.response;
+			// console.log(JSON.parse(res));
+		}
+		request.onerror = function(){
+			var msg = request.status;
+			console.log(msg);
+		}
+	}
+	var paraData = [
+			'http://www.fitmee.cn/wx/Home/Interface/myself',
+			{openid:'oK-O_t0mp3Br9HoYOFycp3_P1Hi4'},
+			'json',
+			'POST'
+			];
+	ajaxAct(...paraData);
+
+
+	//Fetch 不兼容
+	// fetch('http://www.fitmee.cn/wx/Home/Interface/myself',{
+	// 	openid:'oK-O_t0mp3Br9HoYOFycp3_P1Hi4'
+	// }).then(function(response){
+	// 	console.log(response);
+	// 	response.text().then(function(text){
+	// 		console.log(text);
+	// 	})
+	// }).catch(function(msg){console.log(msg)})
+
+</script>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div>
+	<p class="aa">111</p>
+	<p class="aa">222</p>
+	<p class="aa">333</p>
+	<p class="aa">444</p>
+</div>
+
+<script type="text/javascript">
+	var aa = document.getElementsByClassName('aa');
+	for(var i=0;i<aa.length;i++){
+		(function(i){
+			aa[i].onclick = ()=>{
+				console.log(aa[i].textContent)
+			}
+		})(i)
+	}
+</script>
+</body>
+</html>

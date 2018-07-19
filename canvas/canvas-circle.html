@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>canvas-circle</title>
+  <link rel="stylesheet" type="text/css" href="../../_y.css">
+  <style type="text/css">
+    body {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #111;
+    }
+  </style>
+</head>
+<body>
+<canvas id="myCanvas" width="600" height="300"></canvas>
+<script type="text/javascript">
+
+// 转换rad(弧度) 和 deg(角度)
+function getRads (degrees) { return (Math.PI * degrees) / 180; } 
+function getDegrees (rads) { return (rads * 180) / Math.PI; }
+
+//绘制弧线
+function drawRad (ctx) { 
+
+  // arc(x, y, radius, startRad, endRad, [anticlockwise]);
+
+  // x,y => 圆心坐标点 
+  // r, radius => 圆弧半径 
+  var arc = { 
+    x: myCanvas.width / 2, 
+    y: myCanvas.height / 2, 
+    r: 100 
+  }, 
+  w = myCanvas.width, 
+  h = myCanvas.height; 
+
+  ctx.save(); 
+  ctx.lineWidth = 10; 
+  ctx.strokeStyle = '#e3f';
+
+
+  // startRad => getRads(-45) 
+  // endRad => getRads(45) 
+  // 顺时针旋转 
+  ctx.beginPath(); 
+  ctx.arc(arc.x, arc.y, arc.r, getRads(-45), getRads(45)); 
+  ctx.stroke(); 
+
+  // startRad => getRads(-135) 
+  // endRad => getRads(135) 
+  // 逆时针旋转 
+  ctx.beginPath(); 
+  ctx.strokeStyle = "#f36"; 
+  ctx.arc(arc.x, arc.y, arc.r,getRads(-135), getRads(135),true);
+  ctx.stroke(); 
+  ctx.restore(); 
+
+}
+
+function leida (ctx) {
+  // body...
+  var arc = { 
+    x: myCanvas.width / 2, 
+    y: myCanvas.height / 2,
+    r: 10
+  }, 
+  w = myCanvas.width, 
+  h = myCanvas.height; 
+
+  ctx.lineWidth = 10;
+  ctx.strokeStyle = '#e3f';
+
+  for (var i = 9; i--;) {
+    ctx.beginPath()
+    ctx.arc(arc.x, arc.y, arc.r * i, getRads(-45), getRads(45));
+    ctx.stroke();
+  }
+}
+
+function circle (ctx) {
+  // body... 
+
+  ctx.lineWidth = 10;
+  ctx.fillStyle = '#0000ff80';
+  ctx.beginPath();
+  ctx.arc(myCanvas.width / 2 + 200, myCanvas.height / 2, 150, getRads(0), getRads(360));
+  ctx.fill();
+
+  ctx.lineWidth = 10;
+  ctx.fillStyle = '#ff000080';
+  ctx.beginPath();
+  ctx.arc(myCanvas.width / 2, myCanvas.height / 2, 150, getRads(0), getRads(360));
+  ctx.fill();
+
+
+  ctx.lineWidth = 10;
+  ctx.fillStyle = '#00FF0080';
+  ctx.beginPath();
+  ctx.arc(myCanvas.width / 2 + 100, myCanvas.height / 2 + 100, 150, getRads(0), getRads(360));
+  ctx.fill();
+}
+
+function shan (ctx) {
+  // body... 
+  var arc = { x: myCanvas.width / 2, y: myCanvas.height / 2, r: 100 }, 
+  w = myCanvas.width, h = myCanvas.height; 
+
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = 'red';
+
+  // 画个圆使它重合
+  ctx.beginPath(); 
+  ctx.fillStyle = '#3399f3';
+  ctx.arc(arc.x + Math.sqrt(arc.r * arc.r / 2) * 2, arc.y, arc.r,getRads(135),getRads(-135), true); 
+  ctx.fill();
+
+  ctx.beginPath(); 
+  ctx.fillStyle = '#019274';
+  ctx.arc(arc.x, arc.y, arc.r,getRads(45),getRads(-45)); 
+  ctx.fill();
+
+
+  // 创建扇形右侧
+  ctx.beginPath(); 
+  ctx.fillStyle = 'pink';
+  ctx.arc(arc.x, arc.y, arc.r, getRads(-45), getRads(45)); 
+  ctx.fill();
+
+  // 创建扇形左侧
+  ctx.beginPath(); 
+  ctx.fillStyle = 'pink';
+  ctx.arc(arc.x + Math.sqrt(arc.r * arc.r / 2) * 2, arc.y, arc.r, getRads(-135), getRads(135), true); 
+  ctx.fill();
+
+}
+
+function arcto (ctx) {
+  // body... 
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = '#f36';
+  ctx.fillStyle = 'red';
+
+  ctx.fillRect( 100 - 4, 50 - 4, 8, 8 );
+  ctx.fillRect( 100 - 4, 200 - 4, 8, 8 );
+  ctx.fillRect( 300 - 4, 200 - 4, 8, 8 );
+
+  ctx.beginPath();
+  ctx.strokeStyle = 'red';
+  ctx.moveTo( 100, 200 );
+  ctx.lineTo( 300, 200 );
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.strokeStyle = 'blue';
+  ctx.moveTo( 100, 50 );
+  ctx.arcTo( 100, 200, 300, 200, 80);
+  ctx.stroke();
+}
+
+function canvasSupport (e) {return !!e.getContext; }
+
+function canvasApp () {
+  var myCanvas = document.getElementById('myCanvas');
+  
+  myCanvas.width = window.innerWidth;
+  myCanvas.height = window.innerHeight;
+
+  if (!canvasSupport(myCanvas)) {
+      return; 
+    }
+  
+  var ctx = myCanvas.getContext('2d');
+
+  // /
+  ctx.beginPath();
+  ctx.fillStyle = '#02b886';
+  ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+  // drawRad(ctx);
+  // leida(ctx);
+  circle(ctx);
+  // shan(ctx);
+  arcto(ctx);
+  
+}
+
+function eventWindowLoaded () {
+  canvasApp(); //包含整个Canvas应用程序
+}
+
+window.addEventListener('load', eventWindowLoaded, false);
+
+</script>
+</body>
+</html>

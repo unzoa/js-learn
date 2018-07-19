@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	var arr = [0,1,2,3,];
+
+	// slice
+	var newArr3 = arr.slice(0,arr.length);
+	newArr3.push(333);
+	console.log(arr,newArr3);
+
+	// concat
+	var newArr4 = arr.concat();
+	newArr4.push(444);
+	console.log(arr,newArr4);
+
+	// JSON.parse(JSON.stringify())
+	var newArr5 = JSON.parse(JSON.stringify(arr));
+	newArr5.push(5555);
+	console.log(arr,newArr5);
+
+	// es6的解构赋值
+	var [...newArr6] = arr;
+	newArr6.push(666); 
+	console.log(arr,newArr6);
+
+	// 数组去重
+	function dedupe(array) {
+	  return [...new Set(array)]
+	}
+	var arr = [1,2,2,3,3,4,4,5,5]
+	console.log(dedupe(arr))
+</script>
+</body>
+</html>

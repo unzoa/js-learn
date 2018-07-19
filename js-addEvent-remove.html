@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	var handle1 = function(e){
+		if (e.keyCode ==13) {
+			alert(111);
+			document.removeEventListener('keydown',handle1,false);
+		}
+	}
+	document.addEventListener('keydown',handle1,false);
+</script>
+</body>
+</html>

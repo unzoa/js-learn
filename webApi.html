@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>web-api</title>
+	<script type="text/javascript">
+		window.onload = ()=>{
+			console.log(0);
+		}
+	</script>
+	<style type="text/css">
+		.aa{box-sizing: border-box;border:1px solid red;}
+	</style>
+</head>
+<body>
+<script>
+
+
+		// 可以自定义document为某个非保留字段的值，从而方便编写code
+		var _ = document;
+
+		var webApi = {
+			winW : window.innerWidth,
+			winH : window.innerHeight,
+			bodyW: document.body.offsetWidth,
+			bodyH: document.body.offsetHeight,
+		};
+		document.write(JSON.stringify(webApi));
+
+
+
+		// 直接插入child
+		document.body.appendChild(document.createElement('br'));
+		//X document.body.appendChild('<p>haha,successed to build a p alone.</p>');
+		//X document.body.appendChild('<br>');
+		//V document.body.innerHTML = '<p>yes , i ll add it into the body.but i removed the code should write before here.</p>';
+
+
+		// 不能在设置style前单独设置style，但是可以在之后设置
+		//X document.body.style.backgroundColor = 'pink';
+		document.body.setAttribute('style','color:#fff;background-color:pink;');
+		document.body.style.color = "#3399f3";
+		document.write(document.body.getAttribute('style'));
+
+
+
+		// 创建一个p
+		var newP = document.createElement('p');
+		newP.textContent = 'haha,this is newP';
+		document.body.appendChild(newP);
+		document.write(newP.offsetHeight);
+
+
+
+		// 创建一个media
+		// 为什么创建元素的动作和增加属性不能写在同一串内呢？
+		var mediaCon = _.createElement('div');
+		mediaCon.setAttribute('class','mediaCon');
+		_.body.appendChild(mediaCon);
+		for(var i=0;i<2;i++){
+			var newMedia = document.createElement('div');
+			newMedia.setAttribute('style','padding:1rem;margin:1rem auto;width:30rem;background-color:#fff;border-radius:1rem;box-shadow:2px 2px 15px 5px #777;');
+			newMedia.setAttribute('class','newMedia');
+			mediaHtml = '\
+				<div><img src="https://cdn.mdn.mozilla.net/static/img/favicon144.e7e21ca263ca.png"></div>\
+				<div>\
+					<p>THE TITLE IS</p>\
+					<p>This is short content about this main.This is short content about this main.This is short content about this main.</p>\
+				</div>\
+			';
+			newMedia.innerHTML= mediaHtml;
+			_.querySelector('.mediaCon').appendChild(newMedia);
+		
+			document.querySelectorAll('.newMedia')[i].querySelectorAll('div')[0].childNodes[0].style.width = '4rem';
+			document.querySelectorAll('.newMedia')[i].querySelectorAll('div')[0].style.display = 'inline-block';
+			document.querySelectorAll('.newMedia')[i].querySelectorAll('div')[1].setAttribute('style','display:inline-block;line-height:1rem;font-size:1rem;vertical-align:top;');
+			document.querySelectorAll('.newMedia')[i].querySelectorAll('div')[1].querySelectorAll('p')[0].setAttribute('style','margin:0;padding:0;font-size:1.8rem;font-weight:bold;line-height:2rem;');
+			document.querySelectorAll('.newMedia')[i].querySelectorAll('div')[1].querySelectorAll('p')[1].setAttribute('style','margin:0;padding:0;line-height:2rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:calc(24rem);');
+		}
+
+
+
+		// 获取图片的尺寸
+		var imgW =  document.querySelectorAll('.newMedia')[1].querySelector('img').width;
+		var imgW1 =  document.querySelectorAll('.newMedia')[1].querySelector('img').style.width;
+		var imgW2 =  document.querySelectorAll('.newMedia')[1].querySelector('img').offsetWidth;
+		document.write(imgW+','+imgW1+','+imgW2+','+document.querySelectorAll('.newMedia')[1].querySelector('img').naturalWidth);
+		document.body.appendChild(document.createElement('br'));
+		var newImg = new Image();
+		newImg.src = 'https://cdn.mdn.mozilla.net/static/img/favicon144.e7e21ca263ca.png';
+		_.write('haha'+newImg.width+'haha');
+
+
+		
+		// 冒泡事件
+		// ev.stopPropagation();
+		// 阻止事件向上执行，所谓的冒泡行为
+		function stopEvent(ev){
+			ev.stopPropagation();
+			alert('event pagation halted'+this.src);
+		}
+		_.querySelector('.newMedia>div>img').addEventListener('click',stopEvent,false);
+		_.querySelector('.newMedia>div').addEventListener('click',function(){alert(this.innerText)},false);
+
+
+
+		//className设置，获取class名字
+		_.body.appendChild(_.createElement('br'));
+		_.write(_.querySelector('.mediaCon').className);
+		_.querySelector('.mediaCon').className += ' haha';
+
+
+
+		// childNodes，querySelectorAll
+		// children
+		// 获取的是数组
+		// 怎么实现像jq的，取到所有的元素，并可以设置属性
+		console.log(
+			_.querySelector('.mediaCon').childNodes,
+			_.querySelectorAll('.newMedia'),
+			_.querySelector('.mediaCon').children
+			);
+
+		// cloneNode
+		_.querySelector('.mediaCon').appendChild(_.querySelectorAll('.newMedia')[0].cloneNode(true)); 
+
+
+
+		// firstChild
+		// lastChild
+		_.querySelector('.mediaCon').firstChild.style.backgroundColor = 'pink';
+
+
+		// hasAttribute
+		// 判断是否有某个class
+		// node.getAttribute('class').indexOf('haha') > -1
+		// node.className.indexOf('haha') > -1
+		var hasAttr = _.querySelector('.mediaCon').hasAttribute('class');
+		_.write('<br>'+hasAttr);
+
+
+		// insertBefore
+		// 父级元素.(新元素,目标元素);
+		_.querySelector('.mediaCon').insertBefore(
+			_.querySelectorAll('.newMedia')[0].cloneNode(true),
+			_.querySelector('.mediaCon').lastChild
+			);
+
+
+		// nextSlibling
+		// previousSibling
+		_.querySelector('.mediaCon').firstChild.nextSibling.style.color = 'pink';
+
+		
+		// parentNode
+		// parentElement
+		_.querySelector('.newMedia').parentNode.style.border = '1px solid #dbdbdb';
+		//V _.querySelector('.newMedia').parentElement.style.boxShadow = '0 0 15px 3px #999';
+		_.write('<br>'+_.querySelector('.mediaCon').offsetParent.nodeName);
+		//V _.querySelector('.mediaCon').offsetParent.style.backgroundColor = 'red';
+
+
+		// removeChild
+		_.querySelector('.mediaCon').removeChild( _.querySelector('.mediaCon').lastChild );
+		_.querySelector('.mediaCon').lastChild.style.backgroundColor = '#fff';
+
+
+		// replaceChild
+		_.querySelector('.mediaCon').replaceChild(_.createElement('p'),_.querySelector('.mediaCon').lastChild);
+		_.querySelector('.mediaCon').lastChild.style.textAlign = 'center';
+		_.querySelector('.mediaCon').lastChild.textContent = 'hahah,this is add newP.';
+		_.querySelector('.mediaCon').removeChild(_.querySelector('.mediaCon').lastChild);
+
+
+
+</script>
+</body>
+</html>

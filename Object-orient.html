@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Object-orient</title>
+</head>
+<body>
+
+<script type="text/javascript">
+	// learn object-orient
+
+	/**************************/
+
+	// 构造函数
+	function cons(name,age,sex){
+		this.a = name
+		this.b = age
+		this.c = sex
+		this.d = function(){
+			return this.a +'-'+this.b
+		}
+	}
+	// 继承
+	var consT = new cons('yhy','26','male')
+	var cc ={};cons.call(cc,'ss','23');cc.d() //"ss-23"
+	var cc2 ={};cons.apply(cc,['ss','23']);cc.d()//"ss-23"
+
+	/**************************/
+
+	// 对象
+	var cons = {
+		a:'',
+		b:'',
+		c:'',
+		d:function(a,b){
+			return this.a +'-'+ this.b
+		}
+	}
+	// ／继承
+	var cc3 = cons.d.bind({a:'fff',b:'22',c:'mm'})	
+	var cc4 = cons.d.call({a:'ggg',b:'322',c:'mm'})
+
+
+
+// 1,simple object
+	var cat1 = {
+		name:'cat1',
+		color:'color1',
+		run : function(){
+			return this.name +'+'+ this.color
+		}
+	}
+
+// 2，update version 
+	var Cat2 = function(name,color){
+		return {
+			name:'',
+			color:''
+		}
+	}
+
+	// 1，2的方式，实例之间并没有联系
+
+// 3，构造函数
+	function Cat3 (name,color){
+		this.name = name; 
+		this.color = color;
+		this.run = function(){
+			console.log(this.name + this.color);
+		}
+	}
+
+	var cat31 = new Cat3('cat31','color31');
+	cat31.run();
+
+	console.log(cat31.constructor == Cat3);
+	console.log(cat31 instanceof Cat3);
+
+	// 当属性值都是同一个内容时候
+	// 每次建立一个实例都要重新设置内存
+	// 从而浪费内存
+	// 解决办法是prototype
+	// 每一个构造函数都有一个prototype，指向另一个对象
+	// 这个对象的所有属性和方法，都会被构造函数的实例继承
+	// so，可以把不变的属性，func都定义在prototype
+	Cat3.prototype.haha = 'haha';
+
+	// property 验证
+	// 1,isPropertyOf
+	console.log(Cat3.prototype.isPrototypeOf(cat31));
+
+	// 2,hasOwnProperty
+	console.log(cat31.hasOwnProperty('haha'));//false
+	console.log(cat31.hasOwnProperty("name"));//true
+
+	console.log(Cat3.hasOwnProperty("haha"));// false
+	console.log(Cat3.hasOwnProperty("name"));//true
+
+	// 2,in某个实例是否含有某个属性
+	console.log('name' in Cat3);// true
+	console.log('haha' in Cat3);// false
+
+
+// 4，构造函数的继承
+	
+	function Animal(){
+		this.species = '动物';
+	}
+	Animal.prototype.haha = 'haha';
+	// 使得Cat3继承Animal
+
+	//4.1 使用call和apply，将父对象的构造函数绑定在子对象上，即在子对象上加一行
+	function Dog(name , color){
+		Animal.apply(this,arguments);
+		this.name = name;
+		this.color = color;
+		this.run = function(){
+			console.log(this.name+'+'+this.color);
+		}
+	}
+
+	var dog1 = new Dog('dog1','dog1-color1');
+	console.log(dog1.species);
+
+	// 4.2 利用prototype属性，将dog的prototype指向Animal，就能继承Animal
+	function Duck(){
+
+	}
+	Duck.prototype = new Animal();
+	// Duck的constructor默认指向Duck.prototype.constructor
+	// 但是现在Duck.prototype.constructor指向Animal
+	// 导致继承链紊乱（duck1应该是Duck构造函数生成的，而不是Animal）
+	// 所以必须手动纠正
+	Duck.prototype.constructor = Duck;
+	var duck1 = new Duck();
+	console.log(duck1.species);
+
+	// 4.3直接继承prototype
+	// 这样写效率高，不用执行和建立Animal的实例
+	// 缺点是对Donkey的prototype改变会直接影响Animal的prototype的内存
+	function Donkey(){
+
+	}
+	Donkey.prototype = Animal.prototype;
+	// 这里把Animal的constructor改变了
+	// Donkey.prototype.constructor = Donkey;
+	var donkey1 = new Donkey();
+	console.log(donkey1.haha);
+
+	// 4.4 利用空对象作为中介
+	function F (){}
+	F.prototype = Animal.prototype;
+	function Panda(){}
+	Panda.prototype = new F();
+	Panda.prototype.constructor = Panda;
+
+	// 4.4 封装
+	function extendClass(child, parent){
+		var F = function(){}
+		F.prototype = parent.prototype;
+		child.prototype = new F();
+		child.prototype.constructor = child;
+		// 这样用一个属性调用父对象，就可以直接调用父对象的方法
+		child.uber = parent.prototype;
+	}
+
+	function Fox(){}
+	extendClass(Fox,Animal);
+
+	// 4.5 将属性一一拷贝给child对象的prototype对象
+
+
+// 5，非构造函数继承
+
+	// 两个普通对象，不是构造函数，想要实现继承
+	var chinese = { nation : "中国人"};
+	var doctor = { career : "医生"};
+
+	// oject() 方法
+	function extendObject(o){
+		var F = function(){}
+		F.prototype = o;
+		return new F();
+	}
+	var police = extendObject(chinese); 
+	police.career = "police";
+
+	// 浅拷贝方法
+	// 将属性一一拷贝给子对象
+	// 但是如果拷贝对象属性是对象或者数组，则拷贝的是一个内存地址
+
+	// 深拷贝方法
+	// 递归判断属性类型决定拷贝
+
+	// JSON 方法
+	var chinese2 =  { nation : "中国人"};
+	var chinese3 = JSON.parse(JSON.stringify(chinese));
+
+
+</script>
+
+</body>
+</html>

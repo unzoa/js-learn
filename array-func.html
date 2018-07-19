@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+	var arr = [1,2];
+	var arr2 = [3,4];
+	// push
+	// unshift 增加开头
+	// pop 删除结尾 arr.pop()
+	// shift 删除开头
+
+	// concat，连接数组arr.concat(arr2),返回[1,2,3,4]
+
+	// join('链接符号') 数组变为字符串
+
+	// slice(start , end)得新数组 start是开始的index,end是结束index+1
+
+	// splice(index, count_to_remove, addElement1, addElement2, ...)
+	var myArray = new Array ("1", "2", "3", "4", "5");
+	myArray.splice(1, 3, "a", "b", "c", "d"); 
+	// ["1", "a", "b", "c", "d", "5"]
+	
+	// This code started at index one (or where the "2" was), 
+	// removed 3 elements there, and then inserted all consecutive
+	// elements in its place.
+
+	// reverse
+	var myArrayr = new Array ("1", "2", "3");
+	myArrayr.reverse(); 	
+	// transposes the array so that myArray = [ "3", "2", "1" ]
+
+	// sort
+	var newarr = new Array("Wind", "Rain", "Fire"),
+		newarr2 = new Array('2017-3-1','2017-6-2','2017-1-1');
+	newarr2.sort();
+
+	// indexOf(searchElement, fromIndex) 在数组中搜索searchElement 并返回第fromIndex位置匹配的 ‘索引’
+	// lastIndexOf(searchElement[, fromIndex]) 和 indexOf 差不多，但这是从结尾开始，并且是反向搜索。
+
+	// foreach 
+	// 方法提供了遍历数组元素的其他方法
+	var colors = ['red', 'green', 'blue'];
+	colors.forEach(function(color,index) {
+	  console.log(color,index);//返回字符串，数组元素
+	});
+
+	// map(callback[, thisObject]) 
+	// 在数组的每个单元项上执行callback函数，并把返回包含回调函数返回值的新数组（译者注：也就是遍历数组，并通过callback对数组元素进行操作，并将所有操作结果放入数组中并返回该数组）
+	var a1 = ['a', 'b', 'c'];
+	var a2 = a1.map(function(item) { 
+		return item.toUpperCase(); 
+	});
+	//a2, logs ['A','B','C']
+
+
+	// filter(callback[, thisObject]) 
+	// 返回一个包含所有在回调函数上返回为true的元素的新数组（译者注：callback在这里担任的是过滤器的角色，当元素符合条件，过滤器就返回true，而filter则会返回所有符合过滤条件的元素）。
+	var a3 = ['a', 10, 'b', 20, 'c', 30];
+	var a4 = a1.filter(function(item) { 
+		return typeof item == 'number'; 
+	});
+	//a4 logs 10,20,30
+
+
+	// every(callback[, thisObject]) 
+	// 当数组中每一个元素在callback上被返回true时就返回true（译者注：同上，every其实类似filter，只不过它的功能是判断是不是数组中的所有元素都符合条件，并且返回的是布尔值）。
+
+	// some(callback[, thisObject]) 
+	// 只要数组中有一项在callback上被返回true，就返回true（译者注：同上，类似every，不过前者要求都符合筛选条件才返回true，后者只要有符合条件的就返回true）
+
+	// reduce(callback[, initialValue]) 
+	// 使用回调函数 callback(firstValue, secondValue) 把数组列表计算成一个单一值（译者注：他数组元素两两递归处理的方式把数组计算成一个值）
+	var a = [10, 20, 30];
+	var total = a.reduce(function(first, second) { return first + second; }, 0);
+	console.log(total) // Prints 60
+	// reduceRight(callback[, initalvalue]) 和 reduce()相似，但这从最后一个元素开始的。
+
+	// 多维数组
+	var a = new Array(4);
+	for (i = 0; i < 4; i++) {
+	  a[i] = new Array(4);
+	  for (j = 0; j < 4; j++) {
+	    a[i][j] = "[" + i + "," + j + "]";
+	  }
+	}
+
+</script>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>this</title>
+</head>
+<body>
+<script>
+let obj = {
+  aa: function () {
+    return true
+  },
+  bb: function () {
+    // function 
+    // this指向obj
+
+    // arrow （） => {}
+    // this 指向window
+    console.log(this.aa())
+  }
+}
+</script>
+</body>
+</html>

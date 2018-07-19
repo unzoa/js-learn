@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>canvas</title>
+</head>
+<body>
+<canvas id="myCan">
+	<p>haha</p>
+</canvas>
+
+<script type="text/javascript">
+	var myCan = document.querySelector('#myCan');
+	// 设置canvas的尺寸
+	myCan.width = myCan.height = 500;
+	
+	// 创建context对象
+	var objC = myCan.getContext('2d');
+	
+	// 填充颜色
+	objC.fillStyle = '#3399f3';
+	// 填充canvas的坐标及尺寸(x,y,width,height)
+	objC.fillRect(100,50,100,50);
+
+	objC.fillStyle = 'pink';
+	objC.fillRect(20,0,20,30);
+
+	// 边框
+	objC.strokeStyle = 'red';
+  	objC.lineWidth = 2;
+  	objC.strokeRect(0,0,200,200);
+
+  	// 划线
+  	// 定义开始坐标(0,0), 和结束坐标 (200,100)。
+  	// 然后使用 stroke() 方法来绘制线条:
+	objC.beginPath();
+	objC.moveTo(20,20);
+	objC.lineTo(20,100);
+	objC.lineTo(70,100);
+	objC.lineWidth = 2;
+	objC.strokeStyle="green";
+	objC.stroke();
+	objC.closePath();
+
+	// 画圈
+	// arc(x,y,r,start起始角度，以弧度表示，圆心平行的右端为0度,stop)
+	// Math.PI表示180°,画圆的方向是顺时针
+	objC.beginPath();
+	objC.arc(95,50,40,0,2*Math.PI);
+	objC.strokeStyle = 'pink';
+	objC.stroke();
+
+	// 画圆
+	objC.beginPath();
+	objC.arc(25,125,20,0,2*Math.PI);
+	objC.closePath();
+	objC.fillStyle="#987623";
+	objC.fill();
+
+	// 画缺口的圆形
+	function degToRad(degrees) {
+        return degrees * Math.PI / 180;
+    };
+    objC.beginPath();
+    objC.arc(25,150,20,degToRad(-45),degToRad(45),true);
+    objC.lineTo(25,150);
+    objC.closePath();
+    objC.fillStyle='pink';
+    objC.fill();
+
+    // 渐变
+    // 创建渐变
+	var grd=objC.createRadialGradient(75,50,5,90,60,100);
+	grd.addColorStop(0,"red");
+	grd.addColorStop(1,"white");
+	 
+	// 填充渐变
+	objC.fillStyle=grd;
+	objC.fillRect(10,100,150,80);
+
+	// 文字
+	objC.strokeStyle = '#3399f3';
+	objC.lineWidth = '1';
+	objC.font = '36px arial';
+	objC.strokeText('Hello world',50,100);
+
+	objC.fillStyle = 'red';
+    objC.font = '48px georgia';
+    objC.fillText('Canvas text', 50, 150);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>canvas-circle</title>
+  <link rel="stylesheet" type="text/css" href="../../_y.css">
+</head>
+<body>
+<div class="main">
+  <canvas id="myCanvas"></canvas>
+</div>
+
+<script type="text/javascript" src="../../_y.js"></script>
+<script type="text/javascript" src="tricolor.js"></script>
+
+<script type="text/javascript">
+
+function canvasSupport (e) {return !!e.getContext; }
+
+function canvasApp () {
+  let myCanvas = document.getElementById('myCanvas')
+
+  if (!canvasSupport(myCanvas)) {
+      return; 
+    }
+
+  let res = {
+    a: {name: 'aaa', count: 199},
+    b: {name: 'bbb', count: 344},
+    c: {name: 'ccc', count: 199999},
+    ab: {name: 'ab', count: 19},
+    ac: {name: 'ac', count: 12},
+    bc: {name: 'bc', count: 15},
+    abc: {name: 'abc', count: 9}
+  }
+
+  // 调色盘
+  let tricolor = ['red', 'yellow', 'blue', 'orange', 'green', 'purple', 'black']
+  // 背景颜色
+  let bgColor = '#02b886'
+
+  init(myCanvas, tricolor, bgColor, res) 
+
+  window.addEventListener('resize',function () {
+    init(myCanvas, tricolor, bgColor, res)
+  }, false)
+}
+
+function eventWindowLoaded () {
+  canvasApp(); //包含整个Canvas应用程序
+}
+
+window.addEventListener('load', eventWindowLoaded, true);
+
+</script>
+</body>
+</html>

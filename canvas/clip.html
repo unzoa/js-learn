@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>canvas-circle</title>
+  <link rel="stylesheet" type="text/css" href="../../_y.css">
+  <style type="text/css">
+    body {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #111;
+    }
+  </style>
+</head>
+<body>
+<canvas id="myCanvas" width="600" height="300"></canvas>
+<script type="text/javascript">
+
+// 转换rad(弧度) 和 deg(角度)
+function getRads (degrees) { return (Math.PI * degrees) / 180; } 
+function getDegrees (rads) { return (rads * 180) / Math.PI; }
+
+function canvasSupport (e) {return !!e.getContext; }
+
+function canvasApp () {
+  var myCanvas = document.getElementById('myCanvas');
+  
+  myCanvas.width = window.innerWidth;
+  myCanvas.height = window.innerHeight;
+
+  if (!canvasSupport(myCanvas)) {
+      return; 
+    }
+  
+  var ctx = myCanvas.getContext('2d');
+
+  ctx.beginPath();
+  ctx.fillStyle = '#02b886';
+  ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+  let circle = [
+    {x: 50, y: 50, r: 50 , c: 'red'},
+    {x: 50 + 50, y: 50, r: 50 , c: 'yellow'},
+    {x: 50 + 25, y: 50 + 50, r: 50 , c: 'blue'}
+  ]
+
+  for (let i = 0; i<3; i++) {
+    ctx.beginPath()
+    ctx.arc(circle[i].x, circle[i].y, circle[i].r, 0, 2*Math.PI)
+    ctx.fillStyle = circle[i].c
+    ctx.fill()
+    ctx.closePath()
+  }
+
+  let circleIndex = [
+    {
+      index: [0, 1],
+      c: 'orange'
+    },
+    {
+      index: [0, 2],
+      c: 'green'
+    },
+    {
+      index: [1, 2],
+      c: 'purple'
+    },
+    {
+      index: [0, 1, 2],
+      c: 'black'
+    }
+  ]
+
+  for (let i = 0; i < 4; i++) {
+    ctx.restore()
+    ctx.save()
+
+    circleIndex[i].index.forEach(function (m, n) {
+      ctx.beginPath()
+      ctx.arc(circle[m].x, circle[m].y, circle[m].r, 0, 2*Math.PI)
+      ctx.clip()
+    })
+
+    ctx.fillStyle = circleIndex[i].c
+    ctx.fill()
+  }
+
+}
+
+function eventWindowLoaded () {
+  canvasApp(); //包含整个Canvas应用程序
+}
+
+window.addEventListener('load', eventWindowLoaded, false);
+
+</script>
+</body>
+</html>
